@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Tường Tết</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffe6e6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #d42d2d;
+            font-family: "Brush Script MT", cursive;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        textarea {
+            resize: none;
+            height: 150px;
+        }
+        .image-preview {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .image-preview img {
+            max-width: 100%;
+            max-height: 300px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #d42d2d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #b32b2b;
+        }
+        .output {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Báo Tường Tết</h1>
+        <form id="wallForm">
+            <label for="title">Tiêu đề:</label>
+            <input type="text" id="title" placeholder="Nhập tiêu đề báo tường">
+
+            <label for="content">Nội dung:</label>
+            <textarea id="content" placeholder="Nhập nội dung báo tường"></textarea>
+
+            <label for="image">Thêm hình ảnh:</label>
+            <input type="file" id="image" accept="image/*">
+
+            <div class="image-preview" id="imagePreview">
+                <p>Hình ảnh sẽ hiển thị ở đây...</p>
+            </div>
+
+            <button type="button" onclick="generateWall()">Tạo Báo Tường</button>
+        </form>
+
+        <div class="output" id="output"></div>
+    </div>
+
+    <script>
+        const imageInput = document.getElementById('image');
+        const imagePreview = document.getElementById('imagePreview');
+
+        imageInput.addEventListener('change', () => {
+            const file = imageInput.files[0];
+            if (file) {const reader = new FileReader();
+                reader.onload = () => {
+                    imagePreview.innerHTML = `<img src="${reader.result}" alt="Hình ảnh">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function generateWall() {
+            const title = document.getElementById('title').value.trim();
+            const content = document.getElementById('content').value.trim();
+            const image = imagePreview.querySelector('img');
+
+            if (!title || !content) {
+                alert('Vui lòng nhập đầy đủ tiêu đề và nội dung!');
+                return;
+            }
+
+            const output = document.getElementById('output');
+            output.innerHTML = `
+                <h2 style="text-align: center; color: #d42d2d;">${title}</h2>
+                <p>${content}</p>
+                ${image ? `<div style="text-align: center;"><img src="${image.src}" alt="Hình ảnh" style="max-width: 100%; border: 1px solid #ddd; border-radius: 5px;"></div>` : ''}
+            `;
+        }
+    </script>
+</body>
+</html>
